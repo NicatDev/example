@@ -1,0 +1,51 @@
+{
+  "name": "mtte",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "development": "env-cmd -f .env.development vite build",
+    "dev": "env-cmd -f .env.development vite",
+    "build": "env-cmd -f .env.production vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ag-grid-community/styles": "^32.3.5",
+    "@ant-design/icons": "^6.0.0",
+    "@ant-design/plots": "^2.3.3",
+    "@mtte/dynmic": "1.0.1",
+    "@tailwindcss/vite": "^4.0.15",
+    "ag-grid-community": "^33.2.2",
+    "ag-grid-enterprise": "^33.2.2",
+    "ag-grid-react": "^33.2.2",
+    "antd": "^5.24.4",
+    "antd-mask-input": "^2.0.7",
+    "axios": "^1.8.4",
+    "dayjs": "^1.11.13",
+    "env-cmd": "^10.1.0",
+    "i18next": "^24.2.3",
+    "mtte": "file:",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-i18next": "^15.4.1",
+    "react-router-dom": "^7.4.0",
+    "uuid": "^11.1.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.21.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^15.15.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.15",
+    "tailwindcss-cli": "^0.1.2",
+    "vite": "^6.2.0"
+  }
+}

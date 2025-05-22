@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* Tailwind global config */
+@theme {
+  --font-helvetica: '"Helvetica Neue"', "Helvetica", "sans-serif";
+  --font-roboto: "Roboto", "sans-serif";
+
+  /* Custom Colors */
+  --color-primary-text: #181818;
+  --color-secondary-text: #9c9c9c;
+}
+
+/* Custom components layer for reusable utility classes to center content flexibly */
+@layer components {
+  .content-center {
+    @apply flex justify-center items-center;
+  }
+
+  .sidebar_menu li:first-child {
+    @apply shadow-[0px_-1px_0px_0px_#F0F0F0_inset];
+  }
+
+  .assigned-modules .ant-avatar-circle {
+    @apply !rounded-none !bg-[#F6FFED] !border !border-[#B7EB8F] !text-[#52C41A];
+  }
+}
+
+@layer base {
+  .ant-modal-wrap {
+    @apply !z-[1001];
+  }
+  
+}
+
+body {
+  @apply font-helvetica;
+}
