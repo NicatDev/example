@@ -2,14 +2,13 @@ import { Button, Drawer, Space } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-export default function InsertDrawer({
+export default function FormDrawer({
   isOpen,
   tab,
   close,
   children,
   title,
   handleSave,
-  handleSaveContinue,
   width = 400,
 }) {
   const { t } = useTranslation();
@@ -22,11 +21,6 @@ export default function InsertDrawer({
       extra={
         tab && (
           <Space>
-            {handleSaveContinue && (
-              <Button onClick={handleSaveContinue} type="primary">
-                {t("CommonContent.saveContinue")}
-              </Button>
-            )}
             <Button onClick={handleSave} type="default">
               {t("CommonContent.saveExit")}
             </Button>

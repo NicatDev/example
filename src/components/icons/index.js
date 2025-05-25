@@ -7,12 +7,7 @@ import Threepoints from './ThreePoints';
 import ProjectCategoryIcon from "./ProjectCategoryIcon";
 import LocationIcon from "./LocationIcon";
 import UserRegisteration from "./UserRegisteration";
-import ModuleIcbaOther from "./ModuleIcbaOther";
-import ModulesExplorationSamples from "./ModulesExplorationSamples";
-import ModulesIcbaWater from "./ModulesIcbaWater";
-import ModulesMiningGeoSamples from "./ModulesMiningGeoSamples";
-import ModulesStatistics from "./ModulesStatistics";
-import ModulesDestructiveTests from "./ModulesDestructiveTests";
+
 
 export {
     Threepoints,
@@ -24,10 +19,4 @@ export {
     ProjectCategoryIcon,
     LocationIcon,
     UserRegisteration,
-    ModuleIcbaOther,
-    ModulesExplorationSamples,
-    ModulesIcbaWater,
-    ModulesMiningGeoSamples,
-    ModulesStatistics,
-    ModulesDestructiveTests
 }

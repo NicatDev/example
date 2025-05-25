@@ -12,13 +12,13 @@ export const AuthProvider = ({ children }) => {
     
     const getInitialData = async () => {
         const storedToken = localStorage.getItem("accessToken");
-        const moduleIdHash = localStorage.getItem("module_id_hash");
+        const moduleUuid = localStorage.getItem("module_uuid");
         if (storedToken) {
             setToken(storedToken);
             try {
                 const info = JSON.parse(atob(storedToken.split('.')[1])); 
                 // Decode JWT
-                const response = await API.Modules.getSingleModuleForUsers(moduleIdHash);
+                const response = await API.Modules.getSingleModule(moduleUuid);
                 setUserModules(response.data);
                 setUser(info);
             } catch (error) {

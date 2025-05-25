@@ -9,7 +9,6 @@ import { notify } from "../utils/notification";
 
 export default function PageTemplate({
   title,
-  permission,
   columns,
   dataKey,
   onClickAdd,
@@ -18,12 +17,7 @@ export default function PageTemplate({
   insertActive = true,
   API,
   isRefresh,
-  setIsRefresh,
-  isOtherFields = false,
-  selectEditType,
-  isUserStatus = false,
-  isDeleted = false,
-  isNotStatus = false,
+  setIsRefresh
 }) {
   const { t } = useTranslation();
 
@@ -56,68 +50,8 @@ export default function PageTemplate({
     Sort: [],
   });
 
-  const fetchTableData = async (params, withLoading = true) => {
-    if (withLoading) setTableLoading(true);
-    try {
-      const queryParams = {
-        ...params,
-        Filter: params?.Filter?.length
-          ? JSON.stringify(params.Filter)
-          : undefined,
-        Sort: params?.Sort?.length ? JSON.stringify(params.Sort) : undefined,
-        SearchKey: params?.SearchKey?.length
-          ? JSON.stringify(params.SearchKey)
-          : "",
-      };
 
-      const res = await API.get(queryParams);
-
-      setTableData(res.data.items || []);
-      setPagination((prev) => ({
-        ...prev,
-        current: params["Pagination.OffSet"] || 1,
-        pageSize: params["Pagination.Limit"] || 10,
-        total: res.data.total_count || 0,
-      }));
-    } catch (error) {
-      console.error("Failed to fetch table data:", error);
-      message.error("Failed to load data");
-    } finally {
-      if (withLoading) setTableLoading(false);
-    }
-  };
-
-  const handleChangeStatus = async (record) => {
-    try {
-      await API?.changeStatus({
-        id_hash: record?.id_hash,
-        status: isUserStatus
-          ? record?.status === 4
-            ? 3
-            : 4
-          : record?.is_deleted,
-      });
-      const params = {
-        "Pagination.OffSet": pagination.current,
-        "Pagination.Limit": pagination.pageSize,
-      };
-      fetchTableData({ ...params, ...searchObject });
-
-      if (isUserStatus) {
-        notify.success({ message: t("CommonContent.changed_user_status") });
-      } else {
-        notify.success({
-          message: record?.is_deleted
-            ? t("CommonContent.successfully_activated")
-            : t("CommonContent.successfully_deactivated"),
-        });
-      }
-    } catch (error) {
-      console.error("Failed to change status:", error);
-    }
-  };
-
-  const editColumn = {
+    const editColumn = {
     filterColumn: false,
     sortFilter: false,
     fixed: "right",
@@ -161,36 +95,6 @@ export default function PageTemplate({
               </Button>
             ) : null}
 
-            {!isNotStatus && (
-              <Button
-                type="text"
-                className="!justify-start"
-                onClick={() => handleChangeStatus(record)}
-              >
-                <div className="flex items-center">
-                  <div
-                    className={`w-2 h-2 rounded-full mr-2 ${
-                      isUserStatus
-                        ? record?.status === 4
-                          ? "bg-[#52C41A]"
-                          : "bg-[#FF4D4F]"
-                        : record?.is_deleted
-                        ? "bg-[#52C41A]"
-                        : "bg-[#FF4D4F]"
-                    }`}
-                  />
-                  <span>
-                    {isUserStatus
-                      ? record?.status === 4
-                        ? t("CommonContent.activate")
-                        : t("CommonContent.deactivate")
-                      : record?.is_deleted
-                      ? t("CommonContent.activate")
-                      : t("CommonContent.deactivate")}
-                  </span>
-                </div>
-              </Button>
-            )}
           </div>
         }
       >
@@ -198,6 +102,38 @@ export default function PageTemplate({
       </Popover>
     ),
   };
+
+  const fetchTableData = async (params, withLoading = true) => {
+    if (withLoading) setTableLoading(true);
+    try {
+      const queryParams = {
+        ...params,
+        Filter: params?.Filter?.length
+          ? JSON.stringify(params.Filter)
+          : undefined,
+        Sort: params?.Sort?.length ? JSON.stringify(params.Sort) : undefined,
+        SearchKey: params?.SearchKey?.length
+          ? JSON.stringify(params.SearchKey)
+          : "",
+      };
+
+      const res = await API.get(queryParams);
+
+      setTableData(res.data.items || []);
+      setPagination((prev) => ({
+        ...prev,
+        current: params["Pagination.OffSet"] || 1,
+        pageSize: params["Pagination.Limit"] || 10,
+        total: res.data.total_count || 0,
+      }));
+    } catch (error) {
+      console.error("Failed to fetch table data:", error);
+      message.error("Failed to load data");
+    } finally {
+      if (withLoading) setTableLoading(false);
+    }
+  };
+
 
   const initializeColumns = useCallback(() => {
     const updated = columns.map((col) => ({
@@ -214,7 +150,7 @@ export default function PageTemplate({
       ),
     }));
 
-    if (permission) updated.push(editColumn);
+    updated.push(editColumn);
 
     setFullColumns(updated);
     setVisibleColumns(updated);
@@ -233,7 +169,7 @@ export default function PageTemplate({
     const updated = fullColumns.filter((col) =>
       selected.includes(col.dataIndex)
     );
-    if (permission) updated.push(editColumn);
+    updated.push(editColumn);
     setVisibleColumns(updated);
   };
 
@@ -367,28 +303,10 @@ export default function PageTemplate({
     initializeColumns();
   }, [initializeColumns]);
 
-  const handleDeleteUsersGroup = (id_hash) => {
-    API.delete({ id: id_hash })
-      .then((res) => {
-        if (res.status == 204) {
-          notify.success({ message: t("CommonContent.successDelete") });
-          setIsRefresh(true);
-          setTimeout(() => {
-            setIsRefresh(false);
-          }, 1000);
-        } else {
-          throw new Error(res.data);
-        }
-      })
-      .catch((err) => {
-        notify.error({ message: err?.response?.data?.message });
-      });
-  };
 
   return (
     <div className="content-center flex-col">
       <PageHeader
-        permission={permission}
         title={title}
         changeSelectColumn={changeSelectColumn}
         visibleColumns={visibleColumns}

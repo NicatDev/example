@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ConfigProvider, Layout, Menu } from "antd";
-import {  ReadOutlined, ExperimentOutlined , AppstoreOutlined } from "@ant-design/icons";
+import { Button, ConfigProvider, Layout, Menu } from "antd";
 import {
-  ModuleIcbaOther,
-  ModulesIcbaWater,
-  ModulesDestructiveTests,
-  ModulesMiningGeoSamples,
-  ModulesStatistics,
-  ModulesExplorationSamples,
-} from "@/components/icons";
+  ReadOutlined,
+  ExperimentOutlined,
+  AppstoreOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from "@ant-design/icons";
+import {} from "@/components/icons";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 
-export default function Sidebar({ collapsed }) {
+export default function Sidebar({ collapsed, setCollapsed }) {
   const [selectedMenuKey, setSelectedMenuKey] = useState(null);
   const { t } = useTranslation();
   const { Sider } = Layout;
@@ -29,16 +28,7 @@ export default function Sidebar({ collapsed }) {
     setSelectedMenuKey(menuKey);
   };
 
-  const icons = {
-      DestructiveTestIcon: <ModulesDestructiveTests />,
-      MiningGeologyExampleIcon: <ModulesMiningGeoSamples />,
-      ICBAWaterExampleIcon: <ModulesIcbaWater/>,
-      ICBAOtherExampleIcon: <ModuleIcbaOther/>,
-      StatisticIcon: <ModulesStatistics />,
-      ResearchTypeIcon: <ReadOutlined />,
-      ExperimentTypeIcon: <ExperimentOutlined />,
-      ExplorationTypeIcon: <ModulesExplorationSamples />,
-  };
+  const icons = {};
 
   useEffect(() => {
     const convertedMenuItems = userModules?.map((item) => ({
@@ -46,15 +36,15 @@ export default function Sidebar({ collapsed }) {
       key: item.key,
       icon: icons[item.icon],
     }));
-    setMenuItems([
-      {
-        label: t("CommonContent.returnModules"),
-        key: "home",
-        icon: <AppstoreOutlined />,
-      },
-      ...convertedMenuItems,
-    ]);
-
+    if (convertedMenuItems?.length)
+      setMenuItems([
+        {
+          label: t("CommonContent.returnModules"),
+          key: "home",
+          icon: <AppstoreOutlined />,
+        },
+        ...convertedMenuItems,
+      ]);
     const path = location.pathname.split("/");
     setSelectedMenuKey(`${path[1]}`);
   }, []);
@@ -72,6 +62,15 @@ export default function Sidebar({ collapsed }) {
           },
         }}
       >
+        <Button
+          type="text"
+          onClick={() => setCollapsed(!collapsed)}
+          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          style={{
+            width:'100%',
+            backgroundColor:'#e0e0e0'
+          }}
+        />
         <Menu
           mode="inline"
           className="sidebar_menu"

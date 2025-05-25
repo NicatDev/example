@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 export default function PageHeader({
   title,
-  permission,
   changeSelectColumn,
   visibleColumns,
   columns,
@@ -45,7 +44,7 @@ export default function PageHeader({
         <Button type="" className="ml-2" onClick={clearFilter}>
           {t("CommonContent.clearFilter")}
         </Button>
-        {insertActive && permission && (
+        {insertActive  && (
           <Button type="primary" onClick={onClickAdd} className="mx-2">
             {insertButtonText}
           </Button>

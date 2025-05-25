@@ -7,14 +7,7 @@ import Loader from "../components/ui/Loader";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "@/context/AuthContext";
 import { useAuth } from "@/context/AuthContext";
-const ExplorationSamples = lazy(() => import("@/pages/explorationSamples/index.jsx"));
-const DestructiveTests = lazy(() => import("@/pages/destructiveTests/index.jsx"));
-const MiningGeoSamples = lazy(() => import("@/pages/miningGeoSamples/index.jsx"));
-const IcbaWaterSamples = lazy(() => import("@/pages/icbaWaterSamples/index.jsx"));
-const IcbaOtherSamples = lazy(() => import("@/pages/icbaOtherSamples/index.jsx"));
-const ExperimentType = lazy(() => import("@/pages/experimentType/index.jsx"));
-const ResearchType = lazy(() => import("@/pages/researchType/index.jsx"));
-const Statistics = lazy(() => import("@/pages/statistics/index.jsx"));
+const UserRegistration = lazy(() => import("@/pages/UserRegistration/index.jsx"));
 
 const Error404 = lazy(() => import("@/pages/errors/Error404.jsx"));
 
@@ -24,21 +17,14 @@ const AppRoutes = () => {
   if (loading) return <Loader />;
 
   const routeComponentMap = {
-    "": <Statistics />,
-    "exploration-type": <ExplorationSamples />,
-    "destructive-test": <DestructiveTests />,
-    "mining-geology-example": <MiningGeoSamples />,
-    "icba-water-example": <IcbaWaterSamples />,
-    "icba-other-example": <IcbaOtherSamples />,
-    "experiment-type":<ExperimentType/>,
-    "research-type":<ResearchType/>
+    "user-registration": <UserRegistration />,
   };
 
-  const dynamicRoutes = userModules?.map((mod) => {
-    const path = mod.key;
+  const dynamicRoutes = userModules?.map((form) => {
+    const path = form.path;
     const element = routeComponentMap[path];
     if (!element) return null;
-    const permission = mod.right_key==='full'?true:false
+    const permission = form.permission==='read_write'?true:false
     const elementWithProps = React.cloneElement(element, { permission: permission });
     return <Route key={path} path={path} element={elementWithProps} />;
   });
@@ -47,6 +33,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<PrivateRoute />}>
+      <Route key={'UserRegistration'} path={"user-registration"} element={<UserRegistration />} />
        {dynamicRoutes}
       </Route>
       <Route path="*" element={<Error404 />} />
@@ -56,7 +43,7 @@ const AppRoutes = () => {
 
 const Index = () => {
   return (
-    <BrowserRouter basename="/lab">
+    <BrowserRouter basename="/admin-panel">
       <Suspense fallback={<Loader />}>
         <AuthProvider>
           <AppRoutes />

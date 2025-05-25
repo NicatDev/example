@@ -1,7 +1,6 @@
 .ant-btn {
     box-shadow: none !important;
 }
-
 .ant-menu-item {
     border-radius: 0px !important;
   }
@@ -17,17 +16,12 @@
 .ant-pagination{
     width: 100%;
 }
-.svg-wrapper{
-  
-}
-.ag-menu.ag-column-menu, .ag-menu-list, .ag-set-filter {
-     background-color: white !important;
-}
+
 #related_person_phone:hover {
-     border-color: #c27f5d;
+     border-color: #7586AC;
 }
 #related_person_phone:focus {
-    border-color: #c27f5d;
+    border-color: #7586AC;
 }
 
 

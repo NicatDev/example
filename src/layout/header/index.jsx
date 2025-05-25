@@ -10,7 +10,7 @@ import Languages from "@/config/Languages";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/context/AuthContext";
 
-export default function Header({ collapsed, setCollapsed }) {
+export default function Header({ }) {
   const { user, logout } = useAuth();
   const { Text } = Typography;
   const { t } = useTranslation();
@@ -25,20 +25,11 @@ export default function Header({ collapsed, setCollapsed }) {
     window.location.href = import.meta.env.VITE_HOME;
   };
 
-  function Collapse() {
-    setCollapsed((prev) => !prev);
-  }
-
   return (
     <div className="flex w-full h-[48px] px-[15px] py-2 justify-between items-center bg-[#F9F9F8] border-b border-[#F0F0F0]">
-      {collapsed ? (
-        <MenuUnfoldOutlined className="cursor-pointer" onClick={Collapse} />
-      ) : (
-        <div className="w-[200px] pr-[15px] h-[100%] flex justify-between items-center">
-          <Logo />
-          <MenuFoldOutlined className="cursor-pointer" onClick={Collapse} />
-        </div>
-      )}
+      <div className="w-[200px] pr-[15px] h-[100%] flex justify-between items-center">
+        <Logo />
+      </div>
 
       <div className="content-center">
         <div className="content-center gap-2">
